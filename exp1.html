@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vue Image Gallery</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <style>
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    img {
+      width: 180px;
+      height: 120px;
+      object-fit: cover;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <h2>Image Gallery</h2>
+
+  <button @click="category='All'">All</button>
+  <button @click="category='Nature'">Nature</button>
+  <button @click="category='Animals'">Animals</button>
+
+  <div class="gallery">
+    <div v-for="img in filteredImages" :key="img.name">
+      <img :src="img.url" :alt="img.name"
+           @click="showImage(img.name)">
+      <p>{{ img.name }}</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const app = Vue.createApp({
+  data() {
+    return {
+      category: 'All',
+      images: [
+        { name: 'Forest', category: 'Nature',
+          url: 'https://picsum.photos/id/10/300/200' },
+        { name: 'Mountain', category: 'Nature',
+          url: 'https://picsum.photos/id/29/300/200' },
+        { name: 'Animal', category: 'Animals',
+          url: 'https://picsum.photos/id/237/300/200' }
+      ]
+    };
+  },
+  computed: {
+    filteredImages() {
+      if (this.category === 'All')
+        return this.images;
+      return this.images.filter(
+        img => img.category === this.category
+      );
+    }
+  },
+  methods: {
+    showImage(name) {
+      alert('Selected: ' + name);
+    }
+  }
+});
+app.mount('#app');
+</script>
+</body>
+</html>
