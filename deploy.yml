@@ -1,0 +1,21 @@
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+    - name: Install Node.js
+      apt:
+        name: nodejs
+        state: present
+
+    - name: Install npm packages
+      command: npm install
+      args:
+        chdir: /home/yourname/graphql-task
+
+    - name: Start GraphQL server
+      command: node server.js
+      args:
+        chdir: /home/yourname/graphql-task
+      async: 10
+      poll: 0
